@@ -1,0 +1,57 @@
+{
+  "name": "dnd-assistant",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/dnd-assistant/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/dnd-assistant",
+        "main": "apps/dnd-assistant/src/main.ts",
+        "tsConfig": "apps/dnd-assistant/tsconfig.app.json",
+        "assets": ["apps/dnd-assistant/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/dnd-assistant/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "dnd-assistant:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "dnd-assistant:build:development"
+        },
+        "production": {
+          "buildTarget": "dnd-assistant:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/dnd-assistant/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/dnd-assistant/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
