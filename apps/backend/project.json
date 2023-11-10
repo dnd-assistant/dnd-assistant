@@ -1,7 +1,7 @@
 {
-  "name": "dnd-assistant",
+  "name": "backend",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/dnd-assistant/src",
+  "sourceRoot": "apps/backend/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -11,12 +11,12 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "dist/apps/dnd-assistant",
-        "main": "apps/dnd-assistant/src/main.ts",
-        "tsConfig": "apps/dnd-assistant/tsconfig.app.json",
-        "assets": ["apps/dnd-assistant/src/assets"],
+        "outputPath": "dist/apps/backend",
+        "main": "apps/backend/src/main.ts",
+        "tsConfig": "apps/backend/tsconfig.app.json",
+        "assets": ["apps/backend/src/assets"],
         "isolatedConfig": true,
-        "webpackConfig": "apps/dnd-assistant/webpack.config.js"
+        "webpackConfig": "apps/backend/webpack.config.js"
       },
       "configurations": {
         "development": {},
@@ -27,14 +27,14 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "dnd-assistant:build"
+        "buildTarget": "backend:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "dnd-assistant:build:development"
+          "buildTarget": "backend:build:development"
         },
         "production": {
-          "buildTarget": "dnd-assistant:build:production"
+          "buildTarget": "backend:build:production"
         }
       }
     },
@@ -42,14 +42,14 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/dnd-assistant/**/*.ts"]
+        "lintFilePatterns": ["apps/backend/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/dnd-assistant/jest.config.ts"
+        "jestConfig": "apps/backend/jest.config.ts"
       }
     }
   },
