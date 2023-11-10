@@ -14,7 +14,7 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to dnd-assistant!' });
 });
 
-const port = process.env.PORT || 3333;
+const port = process.env.PORT || 3001;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
