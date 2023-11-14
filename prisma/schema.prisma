@@ -18,7 +18,7 @@ model User {
   passwordHash String
   passwordSalt String
   username     String?
-  Session      Session[]
+  sessions     Session[]
 }
 
 model Session {
