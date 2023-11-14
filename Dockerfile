@@ -10,6 +10,7 @@ COPY nx.json nx.json
 
 COPY apps apps
 COPY libs libs
+COPY prisma prisma
 
 RUN npx nx run-many -t build
 

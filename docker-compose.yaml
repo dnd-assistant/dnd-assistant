@@ -28,7 +28,10 @@ services:
     volumes:
       - ./apps:/app/apps
       - ./libs:/app/libs
+      - ./prisma:/app/prisma
     command: npx nx serve backend
+    environment:
+      - DATABASE_URL=postgresql://dnd-assistant:dnd-assistant@postgres:5432/dnd-assistant?schema=public
     depends_on:
       - postgres
       - typesense
