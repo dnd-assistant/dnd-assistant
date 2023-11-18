@@ -1,12 +1,11 @@
 import express from 'express';
 import * as trpcExpress from '@trpc/server/adapters/express';
-import { appRouter } from './router';
-import { createContext } from './context';
+import { appRouter, createContext } from '@dnd-assistant/trpc';
 
 const app = express();
 
 app.use(
-  '/',
+  '/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
     createContext,

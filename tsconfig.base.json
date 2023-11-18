@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@dnd-assistant/api-services": ["libs/api-services/src/index.ts"],
+      "@dnd-assistant/prisma": ["libs/prisma/src/index.ts"],
+      "@dnd-assistant/shared-utils": ["libs/shared-utils/src/index.ts"],
+      "@dnd-assistant/trpc": ["libs/trpc/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

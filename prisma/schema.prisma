@@ -17,6 +17,7 @@ model User {
   email        String    @unique
   passwordHash String
   passwordSalt String
+  passwordVersion      Int
   username     String?
   sessions     Session[]
 }
