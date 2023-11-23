@@ -14,6 +14,8 @@ COPY apps apps
 COPY libs libs
 COPY prisma prisma
 
+RUN npx prisma generate
+
 RUN npx nx run-many -t build
 
 CMD echo "Must provide command to run containers"

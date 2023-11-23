@@ -1,0 +1,26 @@
+{
+  "name": "trpc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/trpc/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/trpc",
+        "main": "libs/trpc/src/index.ts",
+        "tsConfig": "libs/trpc/tsconfig.lib.json",
+        "assets": ["libs/trpc/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/trpc/**/*.ts", "libs/trpc/package.json"]
+      }
+    }
+  },
+  "tags": []
+}
