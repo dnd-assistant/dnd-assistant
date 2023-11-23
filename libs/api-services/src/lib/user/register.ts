@@ -1,7 +1,7 @@
 import { UserAlreadyExistError } from "../error";
 import { generateSessionExpiry } from "../session/generate-session-expiry";
 import { generateSessionToken } from "../session/generate-session-token";
-import { hashPassword } from "./password";
+import { generatePasswordHashAndSalt } from "./password";
 import { prisma } from '@dnd-assistant/prisma'
 
 export const register = async (email: string, password: string) => {
@@ -13,7 +13,7 @@ export const register = async (email: string, password: string) => {
     throw new UserAlreadyExistError();
   }
 
-  const { hash, salt, version } = await hashPassword(password);
+  const { hash, salt, version } = await generatePasswordHashAndSalt(password);
 
   const user = await prisma.user.create({
     data: {
