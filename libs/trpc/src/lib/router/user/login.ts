@@ -18,14 +18,9 @@ export const login = publicProcedure
     const sessionToken = await services.login(email, password);
     return sessionToken;
   } catch (e) {
-    if (e instanceof UserNotFoundError) {
+    if (e instanceof UserNotFoundError || e instanceof InvalidCredentialsError) {
       return new TRPCError({
-        message: 'User not found for the provided email',
-        code: "NOT_FOUND",
-      });
-    } if (e instanceof InvalidCredentialsError) {
-      return new TRPCError({
-        message: 'Password provided does not match what\'s stored',
+        message: 'Credentials provided do not match what was stored.',
         code: "BAD_REQUEST",
       });
     }
