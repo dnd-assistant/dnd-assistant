@@ -2,7 +2,12 @@ import { randomBytes, pbkdf2 } from 'crypto'
 
 const PASSWORD_VERSION = 1;
 
-export const hashPassword = async (password: string) => {
+export const hashPassword = async (password: string, salt: string) => {
+  const hash = await pbkdf2Promise(password, salt);
+  return hash;
+};
+
+export const generatePasswordHashAndSalt = async (password: string) => {
   const salt = randomBytes(128).toString("base64");
   const hash = await pbkdf2Promise(password, salt);
   return {

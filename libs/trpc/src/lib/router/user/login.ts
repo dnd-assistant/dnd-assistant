@@ -1,11 +1,11 @@
 import { publicProcedure } from '../../trpc';
 import { z } from 'zod';
 import * as services from '@dnd-assistant/api-services';
-import { UserAlreadyExistError } from '@dnd-assistant/api-services';
+import { InvalidCredentialsError, UserNotFoundError } from '@dnd-assistant/api-services';
 import { TRPCError } from '@trpc/server';
 import { validateEmail, validatePassword } from '@dnd-assistant/shared-utils';
 
-export const register = publicProcedure
+export const login = publicProcedure
 .input(
     z.object({
       email: z.string().refine(validateEmail),
@@ -15,13 +15,13 @@ export const register = publicProcedure
 .mutation(async ({ ctx, input }) => {
   const { email, password } = input;
   try {
-    const sessionToken = await services.register(email, password);
+    const sessionToken = await services.login(email, password);
     return sessionToken;
   } catch (e) {
-    if (e instanceof UserAlreadyExistError) {
+    if (e instanceof UserNotFoundError || e instanceof InvalidCredentialsError) {
       return new TRPCError({
-        message: 'User already exists with the given email',
-        code: "CONFLICT",
+        message: 'Credentials provided do not match what was stored.',
+        code: "BAD_REQUEST",
       });
     }
     throw e;
