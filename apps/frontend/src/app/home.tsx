@@ -3,7 +3,7 @@ import React from 'react';
 
 export const Home: React.FC = () => {
   return (
-    <IonPage>
+    <IonPage id="main">
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
