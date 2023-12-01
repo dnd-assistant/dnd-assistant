@@ -1,10 +1,11 @@
-import { Auth } from './auth';
 import { Home } from './home';
+import { Login } from './components/auth/login';
+import { Register } from './components/auth/register';
 import { NotFound } from './not-found';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { trpc } from '../utils/trpc';
 
 /* Ionic */
@@ -26,8 +27,20 @@ import '@ionic/react/css/display.css';
 import { setupIonicReact } from '@ionic/react';
 import { Menu } from './components/menu';
 
+import './css/themes/dark.css';
+
 setupIonicReact();
 export function App() {
+  const toggleDarkTheme = (shouldAdd: boolean) => {
+    document.body.classList.toggle('dark', shouldAdd);
+  };
+
+  useEffect(() => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    toggleDarkTheme(prefersDark.matches);
+    prefersDark.addEventListener('change', (mediaQuery) => toggleDarkTheme(mediaQuery.matches));
+  }, []);
+
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
@@ -48,9 +61,12 @@ export function App() {
           <QueryClientProvider client={queryClient}>
             <IonSplitPane when="lg" contentId="main">
               <Menu />
-              <IonRouterOutlet id="main">
-                <Route path="/" exact component={Home} />
-                <Route path="/auth" exact component={Auth} />
+              <IonRouterOutlet id="main" animated={false}>
+                <Route path="/home" component={Home} />
+                <Route exact path="/auth/login" component={Login} />
+                <Route exact path="/auth/register" component={Register} />
+                <Redirect exact from="/" to="/home" />
+                <Route component={NotFound} />
               </IonRouterOutlet>
             </IonSplitPane>
           </QueryClientProvider>
