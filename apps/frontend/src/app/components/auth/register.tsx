@@ -22,7 +22,7 @@ export const Register: React.FC = () => {
           <IonCardContent>
             <CenteredIonInputContainer>
               <IonItem>
-                <IonInput label="Username" type="text" labelPlacement="stacked" placeholder="Choose a username" />
+                <IonInput label="Email" type="email" labelPlacement="stacked" placeholder="Enter your email" />
               </IonItem>
               <IonItem>
                 <IonInput label="Password" type="password" labelPlacement="stacked" placeholder="Enter a password" />

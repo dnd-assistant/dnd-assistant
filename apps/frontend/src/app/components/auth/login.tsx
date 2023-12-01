@@ -22,7 +22,7 @@ export const Login: React.FC = () => {
           <IonCardContent>
             <CenteredIonInputContainer>
               <IonItem>
-                <IonInput label="Username" type="text" labelPlacement="stacked" placeholder="Enter username" />
+                <IonInput label="Email" type="text" labelPlacement="stacked" placeholder="Enter your email" />
               </IonItem>
               <IonItem>
                 <IonInput label="Password" type="password" labelPlacement="stacked" placeholder="Enter password" />
