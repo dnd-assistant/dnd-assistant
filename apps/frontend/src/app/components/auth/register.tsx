@@ -1,6 +1,7 @@
 import { IonButton, IonButtons, IonCardContent, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonInput, IonItem, IonMenuButton, IonPage, IonRouterLink, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
-import { CenteredContainer, CenteredIonCard, CenteredIonCardHeader, CenteredIonInputContainer, CenteredIonText } from './styles';
+import { CenteredContainer, CenteredIonCard, CenteredIonCardHeader, CenteredIonInputContainer, CenteredIonText, SignInWithGoogleButton } from './styles';
+import { SignInWithGoogle } from './sign-in-with-google';
 
 export const Register: React.FC = () => {
   return (
@@ -35,6 +36,7 @@ export const Register: React.FC = () => {
             <CenteredContainer>
               <IonButton>Register</IonButton>
             </CenteredContainer>
+            <SignInWithGoogleButton />
             <IonItem lines="none">
               <CenteredIonText>
                 <sub>

@@ -1,5 +1,6 @@
 import { IonCard, IonCardHeader, IonText } from "@ionic/react";
 import styled from "styled-components";
+import { SignInWithGoogle } from "./sign-in-with-google";
 
 export const CenteredContainer = styled.div`
   display: flex;
@@ -23,4 +24,10 @@ export const CenteredIonInputContainer = styled.div`
 export const CenteredIonCard = styled(IonCard)`
   max-width: 750px;
   margin: 0 auto;
+`;
+
+export const SignInWithGoogleButton = styled(SignInWithGoogle)`
+  padding-top: 12px;
+  display: flex;
+  justify-content: center;
 `;
