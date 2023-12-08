@@ -16,7 +16,20 @@ export default defineConfig({
     host: '0.0.0.0',
   },
 
-  plugins: [react(), nxViteTsPaths()],
+
+  plugins: [
+    react(),
+    nxViteTsPaths(),
+    {
+      name: "configure-response-headers",
+      configureServer: (server) => {
+        server.middlewares.use((_req, res, next) => {
+          res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+          next();
+        });
+      },
+    },
+  ],
 
   // Uncomment this if you are using workers.
   // worker: {
