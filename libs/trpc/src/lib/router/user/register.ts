@@ -6,24 +6,24 @@ import { TRPCError } from '@trpc/server';
 import { validateEmail, validatePassword } from '@dnd-assistant/shared-utils';
 
 export const register = publicProcedure
-.input(
+  .input(
     z.object({
       email: z.string().refine(validateEmail),
       password: z.string().refine(validatePassword),
     })
   )
-.mutation(async ({ ctx, input }) => {
-  const { email, password } = input;
-  try {
-    const sessionToken = await services.register(email, password);
-    return sessionToken;
-  } catch (e) {
-    if (e instanceof UserAlreadyExistError) {
-      return new TRPCError({
-        message: 'User already exists with the given email',
-        code: "CONFLICT",
-      });
+  .mutation(async ({ ctx, input }) => {
+    const { email, password } = input;
+    try {
+      const sessionToken = await services.register(email, password);
+      return sessionToken;
+    } catch (e) {
+      if (e instanceof UserAlreadyExistError) {
+        throw new TRPCError({
+          message: 'User already exists with the given email',
+          code: 'CONFLICT',
+        });
+      }
+      throw e;
     }
-    throw e;
-  }
-});
+  });

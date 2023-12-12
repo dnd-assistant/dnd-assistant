@@ -1,7 +1,7 @@
-import { Home } from './home';
-import { Login } from './components/auth/login';
-import { Register } from './components/auth/register';
-import { NotFound } from './not-found';
+import { Home } from './Home';
+import { Login } from './components/auth/Login';
+import { Register } from './components/auth/Register';
+import { NotFound } from './NotFound';
 import { Redirect, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
@@ -38,7 +38,9 @@ export function App() {
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
     toggleDarkTheme(prefersDark.matches);
-    prefersDark.addEventListener('change', (mediaQuery) => toggleDarkTheme(mediaQuery.matches));
+    prefersDark.addEventListener('change', (mediaQuery) =>
+      toggleDarkTheme(mediaQuery.matches)
+    );
   }, []);
 
   const [queryClient] = useState(() => new QueryClient());
@@ -48,11 +50,11 @@ export function App() {
         httpBatchLink({
           url: '/api/trpc/',
           async headers() {
-            return {}
+            return {};
           },
         }),
       ],
-    }),
+    })
   );
   return (
     <IonApp>

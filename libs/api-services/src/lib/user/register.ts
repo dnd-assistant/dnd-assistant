@@ -1,8 +1,8 @@
-import { UserAlreadyExistError } from "../error";
-import { generateSessionExpiry } from "../session/generate-session-expiry";
-import { generateSessionToken } from "../session/generate-session-token";
-import { generatePasswordHashAndSalt } from "./password";
-import { prisma } from '@dnd-assistant/prisma'
+import { UserAlreadyExistError } from '../error';
+import { generateSessionExpiry } from '../session/generate-session-expiry';
+import { generateSessionToken } from '../session/generate-session-token';
+import { generatePasswordHashAndSalt } from './generatePasswordHashAndSalt';
+import { prisma } from '@dnd-assistant/prisma';
 
 export const register = async (email: string, password: string) => {
   const existingUser = await prisma.user.findFirst({
@@ -26,13 +26,13 @@ export const register = async (email: string, password: string) => {
           {
             token: generateSessionToken(),
             expiresAt: generateSessionExpiry(),
-          }
+          },
         ],
       },
     },
     include: {
       sessions: true,
-    }
+    },
   });
 
   return user.sessions[0].token;

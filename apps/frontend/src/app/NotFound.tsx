@@ -1,4 +1,12 @@
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import {
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonMenuButton,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react';
 import React from 'react';
 
 export const NotFound: React.FC = () => {
@@ -12,7 +20,9 @@ export const NotFound: React.FC = () => {
           <IonTitle>Not Found</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">I'm sorry the route you are on does not exist.</IonContent>
+      <IonContent className="ion-padding">
+        I'm sorry the route you are on does not exist.
+      </IonContent>
     </IonPage>
   );
 };
