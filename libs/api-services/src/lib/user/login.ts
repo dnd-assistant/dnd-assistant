@@ -1,8 +1,7 @@
 import { prisma } from "@dnd-assistant/prisma";
-import { hashPassword } from "./password";
+import { hashPassword } from "./hashPassword";
 import { InvalidCredentialsError, UserNotFoundError } from "../error";
-import { generateSessionToken } from "../session/generate-session-token";
-import { generateSessionExpiry } from "../session/generate-session-expiry";
+import { generateSession } from "../session/generateSession";
 
 export const login = async (email: string, password: string) => {
   const user = await prisma.user.findFirst({
@@ -21,13 +20,7 @@ export const login = async (email: string, password: string) => {
     throw new InvalidCredentialsError();
   }
 
-  const session = await prisma.session.create({
-    data: {
-      userId: user.id,
-      token: generateSessionToken(),
-      expiresAt: generateSessionExpiry(),
-    }
-  });
+  const session = await generateSession(user.id);
 
   return session.token;
 }

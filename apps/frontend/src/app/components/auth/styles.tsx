@@ -1,6 +1,6 @@
-import { IonCard, IonCardHeader, IonText } from "@ionic/react";
-import styled from "styled-components";
-import { SignInWithGoogle } from "./sign-in-with-google";
+import { IonCard, IonCardHeader, IonText } from '@ionic/react';
+import styled from 'styled-components';
+import { SignInWithGoogle } from './SignInWithGoogle';
 
 export const CenteredContainer = styled.div`
   display: flex;

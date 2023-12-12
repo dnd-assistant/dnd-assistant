@@ -1,7 +1,7 @@
 import { UserAlreadyExistError } from "../error";
 import { generateSessionExpiry } from "../session/generate-session-expiry";
 import { generateSessionToken } from "../session/generate-session-token";
-import { generatePasswordHashAndSalt } from "./password";
+import { generatePasswordHashAndSalt } from "./generatePasswordHashAndSalt";
 import { prisma } from '@dnd-assistant/prisma'
 
 export const register = async (email: string, password: string) => {

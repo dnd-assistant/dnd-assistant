@@ -15,9 +15,9 @@ model User {
   createdAt    DateTime  @default(now()) @db.Timestamptz(6)
   updatedAt    DateTime  @updatedAt @db.Timestamptz(6)
   email        String    @unique
-  passwordHash String
-  passwordSalt String
-  passwordVersion      Int
+  passwordHash String?
+  passwordSalt String?
+  passwordVersion      Int?
   username     String?
   sessions     Session[]
 }

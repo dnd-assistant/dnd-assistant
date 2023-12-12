@@ -19,7 +19,7 @@ export const register = publicProcedure
     return sessionToken;
   } catch (e) {
     if (e instanceof UserAlreadyExistError) {
-      return new TRPCError({
+      throw new TRPCError({
         message: 'User already exists with the given email',
         code: "CONFLICT",
       });

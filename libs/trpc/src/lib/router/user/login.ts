@@ -19,7 +19,7 @@ export const login = publicProcedure
     return sessionToken;
   } catch (e) {
     if (e instanceof UserNotFoundError || e instanceof InvalidCredentialsError) {
-      return new TRPCError({
+      throw new TRPCError({
         message: 'Credentials provided do not match what was stored.',
         code: "BAD_REQUEST",
       });
