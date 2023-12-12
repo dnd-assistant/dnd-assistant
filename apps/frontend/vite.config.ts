@@ -4,6 +4,14 @@ import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
+  root: __dirname,
+  build: {
+    outDir: '../../dist/apps/frontend',
+    reportCompressedSize: true,
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
+  },
   cacheDir: '../../node_modules/.vite/frontend',
 
   server: {
@@ -16,15 +24,17 @@ export default defineConfig({
     host: '0.0.0.0',
   },
 
-
   plugins: [
     react(),
     nxViteTsPaths(),
     {
-      name: "configure-response-headers",
+      name: 'configure-response-headers',
       configureServer: (server) => {
         server.middlewares.use((_req, res, next) => {
-          res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+          res.setHeader(
+            'Cross-Origin-Opener-Policy',
+            'same-origin-allow-popups'
+          );
           next();
         });
       },
@@ -37,6 +47,11 @@ export default defineConfig({
   // },
 
   test: {
+    reporters: ['default'],
+    coverage: {
+      reportsDirectory: '../../coverage/apps/frontend',
+      provider: 'v8',
+    },
     globals: true,
     cache: {
       dir: '../../node_modules/.vitest',

@@ -16,10 +16,7 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["libs/trpc/**/*.ts", "libs/trpc/package.json"]
-      }
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": []
