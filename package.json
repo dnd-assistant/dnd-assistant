@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "postinstall": "[ -f 'packages/prisma/src/prisma/schema.prisma' ] && prisma generate || echo 'Prisma schema does not exist'"
+    "postinstall": "[ -f 'prisma/schema.prisma' ] && prisma generate || echo 'Prisma schema does not exist'"
   },
   "private": true,
   "dependencies": {
