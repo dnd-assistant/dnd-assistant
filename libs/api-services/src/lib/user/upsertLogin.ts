@@ -1,5 +1,5 @@
-import { prisma } from "@dnd-assistant/prisma";
-import { generateSession } from "../session/generateSession";
+import { prisma } from '@dnd-assistant/prisma';
+import { generateSession } from '../session/generateSession';
 
 export const upsertLogin = async (email: string) => {
   const user = await prisma.user.upsert({

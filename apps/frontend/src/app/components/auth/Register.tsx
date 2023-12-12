@@ -1,6 +1,28 @@
-import { IonButton, IonButtons, IonCardContent, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonInput, IonItem, IonMenuButton, IonPage, IonRouterLink, IonTitle, IonToolbar } from '@ionic/react';
+import {
+  IonButton,
+  IonButtons,
+  IonCardContent,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonContent,
+  IonHeader,
+  IonInput,
+  IonItem,
+  IonMenuButton,
+  IonPage,
+  IonRouterLink,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react';
 import React from 'react';
-import { CenteredContainer, CenteredIonCard, CenteredIonCardHeader, CenteredIonInputContainer, CenteredIonText, SignInWithGoogleButton } from './styles';
+import {
+  CenteredContainer,
+  CenteredIonCard,
+  CenteredIonCardHeader,
+  CenteredIonInputContainer,
+  CenteredIonText,
+  SignInWithGoogleButton,
+} from './styles';
 
 export const Register: React.FC = () => {
   return (
@@ -22,13 +44,28 @@ export const Register: React.FC = () => {
           <IonCardContent>
             <CenteredIonInputContainer>
               <IonItem>
-                <IonInput label="Email" type="email" labelPlacement="stacked" placeholder="Enter your email" />
+                <IonInput
+                  label="Email"
+                  type="email"
+                  labelPlacement="stacked"
+                  placeholder="Enter your email"
+                />
               </IonItem>
               <IonItem>
-                <IonInput label="Password" type="password" labelPlacement="stacked" placeholder="Enter a password" />
+                <IonInput
+                  label="Password"
+                  type="password"
+                  labelPlacement="stacked"
+                  placeholder="Enter a password"
+                />
               </IonItem>
               <IonItem>
-                <IonInput label="Confirm Password" type="password" labelPlacement="stacked" placeholder="Confirm your password" />
+                <IonInput
+                  label="Confirm Password"
+                  type="password"
+                  labelPlacement="stacked"
+                  placeholder="Confirm your password"
+                />
               </IonItem>
             </CenteredIonInputContainer>
             <br />
@@ -39,7 +76,10 @@ export const Register: React.FC = () => {
             <IonItem lines="none">
               <CenteredIonText>
                 <sub>
-                  Already have an account? <IonRouterLink routerLink="/auth/login">Login here!</IonRouterLink>
+                  Already have an account?{' '}
+                  <IonRouterLink routerLink="/auth/login">
+                    Login here!
+                  </IonRouterLink>
                 </sub>
               </CenteredIonText>
             </IonItem>

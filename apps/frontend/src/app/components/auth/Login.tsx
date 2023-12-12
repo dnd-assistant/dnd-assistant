@@ -1,8 +1,30 @@
-import { IonButton, IonButtons, IonCardContent, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonInput, IonItem, IonMenuButton, IonPage, IonRouterLink, IonTitle, IonToolbar } from '@ionic/react';
-import { CenteredContainer, CenteredIonCard, CenteredIonCardHeader, CenteredIonInputContainer, CenteredIonText, SignInWithGoogleButton } from './styles';
+import {
+  IonButton,
+  IonButtons,
+  IonCardContent,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonContent,
+  IonHeader,
+  IonInput,
+  IonItem,
+  IonMenuButton,
+  IonPage,
+  IonRouterLink,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react';
+import {
+  CenteredContainer,
+  CenteredIonCard,
+  CenteredIonCardHeader,
+  CenteredIonInputContainer,
+  CenteredIonText,
+  SignInWithGoogleButton,
+} from './styles';
 
 export const Login: React.FC = () => {
- return (
+  return (
     <IonPage id="main">
       <IonHeader>
         <IonToolbar>
@@ -21,10 +43,20 @@ export const Login: React.FC = () => {
           <IonCardContent>
             <CenteredIonInputContainer>
               <IonItem>
-                <IonInput label="Email" type="text" labelPlacement="stacked" placeholder="Enter your email" />
+                <IonInput
+                  label="Email"
+                  type="text"
+                  labelPlacement="stacked"
+                  placeholder="Enter your email"
+                />
               </IonItem>
               <IonItem>
-                <IonInput label="Password" type="password" labelPlacement="stacked" placeholder="Enter password" />
+                <IonInput
+                  label="Password"
+                  type="password"
+                  labelPlacement="stacked"
+                  placeholder="Enter password"
+                />
               </IonItem>
             </CenteredIonInputContainer>
             <br />
@@ -36,7 +68,10 @@ export const Login: React.FC = () => {
             <IonItem lines="none">
               <CenteredIonText>
                 <sub>
-                  To register for an account click <IonRouterLink routerLink="/auth/register">here!</IonRouterLink>
+                  To register for an account click{' '}
+                  <IonRouterLink routerLink="/auth/register">
+                    here!
+                  </IonRouterLink>
                 </sub>
               </CenteredIonText>
             </IonItem>
