@@ -2,7 +2,7 @@ import { prisma } from '@dnd-assistant/prisma';
 import { hashPassword } from './hashPassword';
 import {
   InvalidCredentialsError,
-  InvalidLoginFlowForGUser,
+  UserNoPasswordError,
   UserNotFoundError,
 } from '../error';
 import { generateSession } from '../session/generateSession';
@@ -18,8 +18,8 @@ export const login = async (email: string, password: string) => {
     throw new UserNotFoundError();
   }
 
-  if (!user.passwordSalt || !user.passwordHash) {
-    throw new InvalidLoginFlowForGUser();
+  if (!user.passwordSalt || !user.passwordHash || !user.passwordVersion) {
+    throw new UserNoPasswordError();
   }
 
   const hash = await hashPassword(password, user.passwordSalt);

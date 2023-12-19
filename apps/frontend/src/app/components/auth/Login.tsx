@@ -46,7 +46,7 @@ export const Login: React.FC = () => {
       email,
       password,
     });
-  }, [email, password]);
+  }, [email, password, login]);
 
   useEffect(() => {
     if (login.isSuccess) {
@@ -55,7 +55,7 @@ export const Login: React.FC = () => {
       setLoginIsDisabled(false);
       setShowToast(true);
     }
-  }, [login.data]);
+  }, [login.data, login.isSuccess]);
 
   useEffect(() => {
     if (login.error) {

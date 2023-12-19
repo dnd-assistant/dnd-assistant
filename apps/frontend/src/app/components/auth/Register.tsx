@@ -50,13 +50,13 @@ export const Register: React.FC = () => {
       email,
       password,
     });
-  }, [email, password]);
+  }, [email, password, register]);
 
   useEffect(() => {
     if (register.isSuccess) {
       localStorage.setItem('authToken', register.data);
     }
-  }, [register.data]);
+  }, [register.data, register.isSuccess]);
 
   useEffect(() => {
     if (register.error) {
