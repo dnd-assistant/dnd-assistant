@@ -20,6 +20,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
       });
     }
   }, []);
+
   const googleSignInHook = useCallback((args: any) => {
     signInWithGoogle.mutate(args);
   }, []);
@@ -29,6 +30,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
       localStorage.setItem('authToken', signInWithGoogle.data);
     }
   }, [signInWithGoogle.data]);
+
   const buttonRefHook = useCallback(
     (node: HTMLDivElement) => {
       buttonRef.current = node;
@@ -36,6 +38,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
     },
     [triggerGoogleButtonRender]
   );
+
   const googleSignInBtnOnLoadHook = useCallback(() => {
     (window as any).google?.accounts.id.initialize({
       client_id:
@@ -49,6 +52,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
     });
     triggerGoogleButtonRender();
   }, [googleSignInHook, triggerGoogleButtonRender]);
+
   useEffect(() => {
     const googleScriptNodeId = 'google-auth-script';
     const existingNode = document.getElementById(googleScriptNodeId);
@@ -61,6 +65,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
       document.head.appendChild(googleScriptNode);
     }
   }, [googleSignInBtnOnLoadHook]);
+
   return (
     <div className={props.className}>
       <div ref={buttonRefHook} className="g_id_signin"></div>
