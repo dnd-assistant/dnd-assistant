@@ -12,7 +12,7 @@ export const register = publicProcedure
       password: z.string().refine(validatePassword),
     })
   )
-  .mutation(async ({ ctx, input }) => {
+  .mutation(async ({ input }) => {
     const { email, password } = input;
     try {
       const sessionToken = await services.register(email, password);

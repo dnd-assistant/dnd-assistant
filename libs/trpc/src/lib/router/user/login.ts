@@ -16,17 +16,16 @@ export const login = publicProcedure
       password: z.string().refine(validatePassword),
     })
   )
-  .mutation(async ({ ctx, input }) => {
+  .mutation(async ({ input }) => {
     const { email, password } = input;
     try {
       const sessionToken = await services.login(email, password);
       return sessionToken;
     } catch (e) {
-      if (
-        e instanceof UserNoPasswordError
-      ) {
+      if (e instanceof UserNoPasswordError) {
         throw new TRPCError({
-          message: 'User does not have a password set. Try using an alternative credential provider.',
+          message:
+            'User does not have a password set. Try using an alternative credential provider.',
           code: 'FORBIDDEN',
         });
       }

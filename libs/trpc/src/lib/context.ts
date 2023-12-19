@@ -2,7 +2,10 @@ import * as trpcExpress from '@trpc/server/adapters/express';
 
 import { inferAsyncReturnType } from '@trpc/server';
 
-export const createContext = ({}: trpcExpress.CreateExpressContextOptions) => {
+export const createContext = (
+  expressContext: trpcExpress.CreateExpressContextOptions
+) => {
+  console.log('Request headers', expressContext.req.headers);
   return {};
 };
 

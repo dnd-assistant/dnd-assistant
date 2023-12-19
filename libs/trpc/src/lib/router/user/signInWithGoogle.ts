@@ -11,7 +11,7 @@ export const signInWithGoogle = publicProcedure
       credential: z.string(),
     })
   )
-  .mutation(async ({ ctx, input }) => {
+  .mutation(async ({ input }) => {
     const { clientId, credential } = input;
     const client = new OAuth2Client();
     const ticket = await client.verifyIdToken({
