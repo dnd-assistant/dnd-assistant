@@ -25,8 +25,8 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
       });
     }
   }, []);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const googleSignInHook = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (args: any) => {
       signInWithGoogle.mutate(args);
     },
