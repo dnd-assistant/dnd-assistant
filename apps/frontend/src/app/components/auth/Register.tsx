@@ -24,30 +24,28 @@ import {
   CenteredIonText,
   SignInWithGoogleButton,
 } from './styles';
-import { InputState } from './types';
 import { validateEmail, validatePassword } from '@dnd-assistant/shared-utils';
-import { getIonInputClassNames, isDisabled } from './input';
+import { getIonInputClassNames } from './input';
 import { trpc } from '../../../utils/trpc';
 
 export const Register: React.FC = () => {
   const register = trpc.user.register.useMutation();
   const [email, setEmail] = useState('');
+  const [registrationToastMessage, setRegistrationToastMessage] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailIsTouched, setEmailIsTouched] = useState(false);
   const [passwordIsTouched, setPasswordIsTouched] = useState(false);
   const [confirmPasswordIsTouched, setConfirmPasswordIsTouched] =
     useState(false);
-  const [emailState, setEmailState] = useState(InputState.Enabled);
-  const [passwordState, setPasswordState] = useState(InputState.Enabled);
-  const [confirmPasswordState, setConfirmPasswordState] = useState(
-    InputState.Enabled
-  );
-  const [isRegistrationError, setIsRegistrationError] = useState(false);
+  const [emailIsValid, setEmailIsValid] = useState(true);
+  const [passwordIsValid, setPasswordIsValid] = useState(true);
+  const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(true);
+  const [registerIsDisabled, setRegisterIsDisabled] = useState(false);
+  const [showRegistrationToast, setShowRegistrationToast] = useState(false);
 
   const registerHook = useCallback(() => {
-    setEmailState(InputState.Disabled);
-    setPasswordState(InputState.Disabled);
+    setRegisterIsDisabled(true);
     register.mutate({
       email,
       password,
@@ -56,38 +54,53 @@ export const Register: React.FC = () => {
 
   useEffect(() => {
     if (register.isSuccess) {
-      console.log('Success');
       localStorage.setItem('authToken', register.data);
-    } else if (register.isError) {
-      setEmailState(InputState.Enabled);
-      setPasswordState(InputState.Enabled);
-      setIsRegistrationError(true);
     }
   }, [register.data]);
 
+  useEffect(() => {
+    if (register.error) {
+      const statusCode = register.error?.data?.httpStatus;
+      switch (statusCode) {
+        case 409:
+          setRegistrationToastMessage('This user has already been registered.');
+          break;
+        default:
+          setRegistrationToastMessage(
+            'Oops, something went wrong, please try again.'
+          );
+      }
+      setRegisterIsDisabled(false);
+      setShowRegistrationToast(true);
+    }
+  }, [register.error]);
+
   const emailInputHandler = (value: string) => {
-    validateEmail(value)
-      ? setEmailState(InputState.Enabled)
-      : setEmailState(InputState.Error);
+    const isValid = validateEmail(value);
+    setEmailIsValid(isValid);
     setEmailIsTouched(true);
     setEmail(value);
   };
 
   const passwordInputHandler = (value: string) => {
-    validatePassword(value)
-      ? setPasswordState(InputState.Enabled)
-      : setPasswordState(InputState.Error);
+    const isValid = validatePassword(value);
+    setPasswordIsValid(isValid);
     setPasswordIsTouched(true);
     setPassword(value);
   };
 
   const confirmPasswordInputHandler = (value: string) => {
-    value === password
-      ? setConfirmPasswordState(InputState.Enabled)
-      : setConfirmPasswordState(InputState.Error);
+    const isValid = value === password;
+    setConfirmPasswordIsValid(isValid);
     setConfirmPasswordIsTouched(true);
     setConfirmPassword(value);
   };
+
+  const disableRegisterButton =
+    registerIsDisabled ||
+    !emailIsValid ||
+    !passwordIsValid ||
+    !confirmPasswordIsValid;
 
   return (
     <IonPage id="main">
@@ -109,13 +122,16 @@ export const Register: React.FC = () => {
             <CenteredIonInputContainer>
               <IonItem>
                 <IonInput
-                  className={getIonInputClassNames(emailState, emailIsTouched)}
+                  className={getIonInputClassNames(
+                    emailIsValid,
+                    emailIsTouched
+                  )}
                   label="Email"
                   type="email"
                   labelPlacement="stacked"
                   placeholder="Enter your email"
                   value={email}
-                  disabled={isDisabled(emailState)}
+                  disabled={registerIsDisabled}
                   errorText="Must enter a valid email"
                   onIonInput={(e) =>
                     emailInputHandler(e.target.value as string)
@@ -126,7 +142,7 @@ export const Register: React.FC = () => {
               <IonItem>
                 <IonInput
                   className={getIonInputClassNames(
-                    passwordState,
+                    passwordIsValid,
                     passwordIsTouched
                   )}
                   label="Password"
@@ -135,7 +151,7 @@ export const Register: React.FC = () => {
                   placeholder="Enter a password"
                   errorText="Passwords must be greater than 8 characters long"
                   value={password}
-                  disabled={isDisabled(passwordState)}
+                  disabled={registerIsDisabled}
                   onIonInput={(e) =>
                     passwordInputHandler(e.target.value as string)
                   }
@@ -145,7 +161,7 @@ export const Register: React.FC = () => {
               <IonItem>
                 <IonInput
                   className={getIonInputClassNames(
-                    confirmPasswordState,
+                    confirmPasswordIsValid,
                     confirmPasswordIsTouched
                   )}
                   label="Confirm Password"
@@ -153,7 +169,7 @@ export const Register: React.FC = () => {
                   labelPlacement="stacked"
                   placeholder="Confirm your password"
                   errorText="Passwords must match"
-                  disabled={isDisabled(confirmPasswordState)}
+                  disabled={registerIsDisabled}
                   value={confirmPassword}
                   onIonInput={(e) =>
                     confirmPasswordInputHandler(e.target.value as string)
@@ -164,13 +180,19 @@ export const Register: React.FC = () => {
             </CenteredIonInputContainer>
             <br />
             <CenteredContainer>
-              <IonButton onClick={registerHook}>Register</IonButton>
+              <IonButton
+                onClick={registerHook}
+                disabled={disableRegisterButton}
+              >
+                Register
+              </IonButton>
               <IonToast
-                isOpen={isRegistrationError}
-                message="Oops, something went wrong, please try again"
-                onDidDismiss={() => setIsRegistrationError(false)}
+                isOpen={showRegistrationToast}
+                message={registrationToastMessage}
+                color="danger"
+                onDidDismiss={() => setShowRegistrationToast(false)}
                 duration={5000}
-              ></IonToast>
+              />
             </CenteredContainer>
             <SignInWithGoogleButton />
             <IonItem lines="none">
