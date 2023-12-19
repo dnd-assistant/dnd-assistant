@@ -1,6 +1,10 @@
 import { prisma } from '@dnd-assistant/prisma';
 import { hashPassword } from './hashPassword';
-import { InvalidCredentialsError, UserNoPasswordError, UserNotFoundError } from '../error';
+import {
+  InvalidCredentialsError,
+  UserNoPasswordError,
+  UserNotFoundError,
+} from '../error';
 import { generateSession } from '../session/generateSession';
 
 export const login = async (email: string, password: string) => {

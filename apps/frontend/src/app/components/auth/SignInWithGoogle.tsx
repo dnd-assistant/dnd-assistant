@@ -25,6 +25,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
       });
     }
   }, []);
+
   const googleSignInHook = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (args: any) => {
@@ -38,6 +39,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
       localStorage.setItem('authToken', signInWithGoogle.data);
     }
   }, [signInWithGoogle.isSuccess, signInWithGoogle.data]);
+
   const buttonRefHook = useCallback(
     (node: HTMLDivElement) => {
       buttonRef.current = node;
@@ -45,6 +47,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
     },
     [triggerGoogleButtonRender]
   );
+
   const googleSignInBtnOnLoadHook = useCallback(() => {
     getGoogleRef()?.accounts.id.initialize({
       client_id:
@@ -58,6 +61,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
     });
     triggerGoogleButtonRender();
   }, [googleSignInHook, triggerGoogleButtonRender]);
+
   useEffect(() => {
     const googleScriptNodeId = 'google-auth-script';
     const existingNode = document.getElementById(googleScriptNodeId);
@@ -70,6 +74,7 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
       document.head.appendChild(googleScriptNode);
     }
   }, [googleSignInBtnOnLoadHook]);
+
   return (
     <div className={props.className}>
       <div ref={buttonRefHook} className="g_id_signin"></div>
