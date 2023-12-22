@@ -14,6 +14,7 @@ import {
   IonTitle,
   IonToast,
   IonToolbar,
+  useIonRouter,
 } from '@ionic/react';
 import {
   CenteredContainer,
@@ -24,9 +25,11 @@ import {
   SignInWithGoogleButton,
 } from './styles';
 import { trpc } from '../../../utils/trpc';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { validateEmail, validatePassword } from '@dnd-assistant/shared-utils';
 import { getIonInputClassNames } from './input';
+import { SessionContext } from '../../context/session/SessionContext';
+import { Routes } from '../../routes';
 
 export const Login: React.FC = () => {
   const login = trpc.user.login.useMutation();
@@ -40,6 +43,9 @@ export const Login: React.FC = () => {
   const [loginIsDisabled, setLoginIsDisabled] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
+  const { setSession } = useContext(SessionContext);
+  const router = useIonRouter();
+
   const loginHook = useCallback(() => {
     setLoginIsDisabled(true);
     login.mutate({
@@ -50,12 +56,13 @@ export const Login: React.FC = () => {
 
   useEffect(() => {
     if (login.isSuccess) {
-      localStorage.setItem('authToken', login.data);
+      setSession(login.data);
+      router.push(Routes.Dashboard);
     } else if (login.isError) {
-      setLoginIsDisabled(false);
       setShowToast(true);
     }
-  }, [login.data, login.isSuccess]);
+    setLoginIsDisabled(false);
+  }, [login.data, login.isSuccess, login.isError, setSession, router]);
 
   useEffect(() => {
     if (login.error) {

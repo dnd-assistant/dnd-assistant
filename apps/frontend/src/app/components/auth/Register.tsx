@@ -14,8 +14,9 @@ import {
   IonRouterLink,
   IonTitle,
   IonToolbar,
+  useIonRouter,
 } from '@ionic/react';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import {
   CenteredContainer,
   CenteredIonCard,
@@ -27,6 +28,8 @@ import {
 import { validateEmail, validatePassword } from '@dnd-assistant/shared-utils';
 import { getIonInputClassNames } from './input';
 import { trpc } from '../../../utils/trpc';
+import { SessionContext } from '../../context/session/SessionContext';
+import { Routes } from '../../routes';
 
 export const Register: React.FC = () => {
   const register = trpc.user.register.useMutation();
@@ -43,6 +46,8 @@ export const Register: React.FC = () => {
   const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(true);
   const [registerIsDisabled, setRegisterIsDisabled] = useState(false);
   const [showRegistrationToast, setShowRegistrationToast] = useState(false);
+  const { setSession } = useContext(SessionContext);
+  const router = useIonRouter();
 
   const registerHook = useCallback(() => {
     setRegisterIsDisabled(true);
@@ -54,9 +59,11 @@ export const Register: React.FC = () => {
 
   useEffect(() => {
     if (register.isSuccess) {
-      localStorage.setItem('authToken', register.data);
+      setSession(register.data);
+      router.push(Routes.Dashboard);
     }
-  }, [register.data, register.isSuccess]);
+    setRegisterIsDisabled(false);
+  }, [register.data, register.isSuccess, setSession, router]);
 
   useEffect(() => {
     if (register.error) {

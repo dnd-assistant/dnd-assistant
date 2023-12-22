@@ -1,5 +1,8 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 import { trpc } from '../../../utils/trpc';
+import { SessionContext } from '../../context/session/SessionContext';
+import { useIonRouter } from '@ionic/react';
+import { Routes } from '../../routes';
 
 interface Props {
   className?: string;
@@ -11,6 +14,8 @@ const getGoogleRef = () => {
 };
 
 export const SignInWithGoogle: React.FC<Props> = (props) => {
+  const { setSession } = useContext(SessionContext);
+  const router = useIonRouter();
   const buttonRef = useRef<HTMLDivElement>();
   const signInWithGoogle = trpc.user.signInWithGoogle.useMutation();
   const triggerGoogleButtonRender = useCallback(() => {
@@ -36,9 +41,10 @@ export const SignInWithGoogle: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (signInWithGoogle.isSuccess) {
-      localStorage.setItem('authToken', signInWithGoogle.data);
+      setSession(signInWithGoogle.data);
+      router.push(Routes.Dashboard);
     }
-  }, [signInWithGoogle.isSuccess, signInWithGoogle.data]);
+  }, [signInWithGoogle.isSuccess, signInWithGoogle.data, router, setSession]);
 
   const buttonRefHook = useCallback(
     (node: HTMLDivElement) => {

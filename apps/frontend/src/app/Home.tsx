@@ -6,10 +6,22 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonRouter,
 } from '@ionic/react';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { SessionContext } from './context/session/SessionContext';
+import { Routes } from './routes';
 
 export const Home: React.FC = () => {
+  const { session } = useContext(SessionContext);
+  const router = useIonRouter();
+
+  useEffect(() => {
+    if (session) {
+      router.push(Routes.Dashboard);
+    }
+  }, [session, router]);
+
   return (
     <IonPage id="main">
       <IonHeader>
