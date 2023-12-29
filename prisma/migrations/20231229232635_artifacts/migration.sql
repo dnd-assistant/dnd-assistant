@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "FieldType" AS ENUM ('Image', 'Text', 'WebLink');
+CREATE TYPE "FieldType" AS ENUM ('Image', 'Images', 'Text', 'WebLink', 'WebLinks');
 
 -- CreateEnum
 CREATE TYPE "Visibility" AS ENUM ('Public', 'Private');

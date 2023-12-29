@@ -95,8 +95,10 @@ model Image {
 
 enum FieldType {
   Image
+  Images
   Text
   WebLink
+  WebLinks
 }
 
 enum Visibility {
