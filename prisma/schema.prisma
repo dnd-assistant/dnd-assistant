@@ -48,7 +48,7 @@ model ArtifactTemplate {
 
 model FieldTemplate {
   id                 String           @id @default(uuid()) @db.Uuid
-  order              Int              @unique
+  order              Int
   aiPrompt           String?
   type               FieldType
   description        String?
@@ -74,9 +74,8 @@ model Artifact {
 
 model Field {
   id              String        @id @default(uuid()) @db.Uuid
-  order           Int           @unique
   text            String?
-  image           Image?
+  images          Image[]
   fieldTemplate   FieldTemplate @relation(fields: [fieldTemplateId], references: [id])
   fieldTemplateId String        @db.Uuid
   artifact        Artifact      @relation(fields: [artifactId], references: [id])
@@ -88,11 +87,10 @@ model Field {
 model Image {
   id        String   @id @default(uuid()) @db.Uuid
   title     String
-  url       String
-  field     Field    @relation(fields: [fieldId], references: [id])
-  fieldId   String   @unique @db.Uuid
+  key       String
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  Fields    Field[]
 }
 
 enum FieldType {

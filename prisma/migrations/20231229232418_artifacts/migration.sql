@@ -46,7 +46,6 @@ CREATE TABLE "Artifact" (
 -- CreateTable
 CREATE TABLE "Field" (
     "id" UUID NOT NULL,
-    "order" INTEGER NOT NULL,
     "text" TEXT,
     "fieldTemplateId" UUID NOT NULL,
     "artifactId" UUID NOT NULL,
@@ -60,22 +59,24 @@ CREATE TABLE "Field" (
 CREATE TABLE "Image" (
     "id" UUID NOT NULL,
     "title" TEXT NOT NULL,
-    "url" TEXT NOT NULL,
-    "fieldId" UUID NOT NULL,
+    "key" TEXT NOT NULL,
     "createdAt" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMPTZ(6) NOT NULL,
 
     CONSTRAINT "Image_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "FieldTemplate_order_key" ON "FieldTemplate"("order");
+-- CreateTable
+CREATE TABLE "_FieldToImage" (
+    "A" UUID NOT NULL,
+    "B" UUID NOT NULL
+);
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Field_order_key" ON "Field"("order");
+CREATE UNIQUE INDEX "_FieldToImage_AB_unique" ON "_FieldToImage"("A", "B");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Image_fieldId_key" ON "Image"("fieldId");
+CREATE INDEX "_FieldToImage_B_index" ON "_FieldToImage"("B");
 
 -- AddForeignKey
 ALTER TABLE "ArtifactTemplate" ADD CONSTRAINT "ArtifactTemplate_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -96,4 +97,7 @@ ALTER TABLE "Field" ADD CONSTRAINT "Field_fieldTemplateId_fkey" FOREIGN KEY ("fi
 ALTER TABLE "Field" ADD CONSTRAINT "Field_artifactId_fkey" FOREIGN KEY ("artifactId") REFERENCES "Artifact"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Image" ADD CONSTRAINT "Image_fieldId_fkey" FOREIGN KEY ("fieldId") REFERENCES "Field"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "_FieldToImage" ADD CONSTRAINT "_FieldToImage_A_fkey" FOREIGN KEY ("A") REFERENCES "Field"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_FieldToImage" ADD CONSTRAINT "_FieldToImage_B_fkey" FOREIGN KEY ("B") REFERENCES "Image"("id") ON DELETE CASCADE ON UPDATE CASCADE;
