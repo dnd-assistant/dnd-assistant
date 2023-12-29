@@ -35,7 +35,7 @@ export class PasswordResetMail implements Mail {
       <br /><br />
       If you did not request a password reset, please disregard this email.
       <br /><br />
-      To reset your password, paste this url into your browser: ${resetLink}
+      To reset your password, paste this url into your browser: <a href="${resetLink}">${resetLink}</a>
       <br /><br />
       ${signature.html}
     `;
