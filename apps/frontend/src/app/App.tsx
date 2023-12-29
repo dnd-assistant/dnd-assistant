@@ -2,7 +2,7 @@ import { Home } from './Home';
 import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
 import { NotFound } from './NotFound';
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import { useEffect, useState } from 'react';
@@ -25,9 +25,12 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import { setupIonicReact } from '@ionic/react';
-import { Menu } from './components/menu';
+import { Menu } from './components/menu/Menu';
 
 import './css/themes/dark.css';
+import { SessionContextProviderWrapper } from './context/session/SessionContextProviderWrapper';
+import { Dashboard } from './components/dashboard/Dashboard';
+import { Routes } from './routes';
 
 setupIonicReact();
 export function App() {
@@ -61,16 +64,18 @@ export function App() {
       <IonReactRouter>
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>
-            <IonSplitPane when="lg" contentId="main">
-              <Menu />
-              <IonRouterOutlet id="main" animated={false}>
-                <Route path="/home" component={Home} />
-                <Route exact path="/auth/login" component={Login} />
-                <Route exact path="/auth/register" component={Register} />
-                <Redirect exact from="/" to="/home" />
-                <Route component={NotFound} />
-              </IonRouterOutlet>
-            </IonSplitPane>
+            <SessionContextProviderWrapper>
+              <IonSplitPane when="lg" contentId="main">
+                <Menu />
+                <IonRouterOutlet id="main" animated={false}>
+                  <Route exact path={Routes.Home} component={Home} />
+                  <Route exact path={Routes.Login} component={Login} />
+                  <Route exact path={Routes.Register} component={Register} />
+                  <Route exact path={Routes.Dashboard} component={Dashboard} />
+                  <Route component={NotFound} />
+                </IonRouterOutlet>
+              </IonSplitPane>
+            </SessionContextProviderWrapper>
           </QueryClientProvider>
         </trpc.Provider>
       </IonReactRouter>
