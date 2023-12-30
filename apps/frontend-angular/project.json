@@ -1,0 +1,50 @@
+{
+  "name": "frontend-angular",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/frontend-angular/src",
+  "projectType": "application",
+  "targets": {
+    "ng": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/frontend-angular",
+        "command": "ng"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/frontend-angular",
+        "command": "ng serve --host 0.0.0.0 --disable-host-check --no-live-reload --port 8100"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/frontend-angular",
+        "command": "ng build"
+      }
+    },
+    "build:selfhost": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/frontend-angular",
+        "command": "ng build"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/frontend-angular",
+        "command": "tsc --noEmit"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/frontend-angular",
+        "command": "ng lint"
+      }
+    }
+  }
+}
