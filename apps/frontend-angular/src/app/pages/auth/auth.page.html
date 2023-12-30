@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar color="nav">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title *ngIf="showLogin">
+      Login
+    </ion-title>
+    <ion-title *ngIf="!showLogin">
+      Register
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title *ngIf="showLogin">
+        Welcome Back!
+      </ion-card-title>
+      <ion-card-title *ngIf="!showLogin">
+        Welcome!
+      </ion-card-title>
+      <ion-card-subtitle>
+        Your dungeon awaits you...
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-input
+          label="Email"
+          type="email"
+          labelPlacement="stacked"
+          placeholder="Enter your email"
+          [(ngModel)]="email"
+          errorText="Must enter a valid email"
+          [class.ion-invalid]="isEmailValid()"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-input
+          label="Password"
+          type="password"
+          labelPlacement="stacked"
+          placeholder="Enter password"
+          [(ngModel)]="password"
+          errorText="Passwords must be greater than 8 characters long"
+          [class.ion-invalid]="isPasswordValid()"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-item lines="none" *ngIf="!showLogin">
+        <ion-input
+          label="Confirm Password"
+          type="password"
+          labelPlacement="stacked"
+          placeholder="Enter password again"
+          [(ngModel)]="confirmPassword"
+          errorText="Password confirmation must match"
+          [class.ion-invalid]="isConfirmPasswordValid()"
+        >
+        </ion-input>
+      </ion-item>
+    </ion-card-content>
+
+    <div
+      class="actionButtons"
+      *ngIf="showLogin"
+    >
+      <ion-button
+        (click)="login()"
+        [disabled]="!isEmailValid() || !isPasswordValid()"
+      >
+        Login
+      </ion-button>
+      <ion-button
+        fill="clear"
+      >
+        Forgot
+      </ion-button>
+    </div>
+    <ion-button
+      *ngIf="!showLogin"
+      (click)="register()"
+      [disabled]="!isEmailValid() || !isPasswordValid() || !isConfirmPasswordValid()"
+    >
+      Register
+    </ion-button>
+
+    <div
+      #googleSignIn
+      class="signInWithGoogleContainer"
+    >
+    </div>
+
+    <ion-item lines="none">
+      <ion-text>
+        <sub *ngIf="showLogin">
+          To register for an account click <a (click)="showLogin = false">here!</a>
+        </sub>
+        <sub *ngIf="!showLogin">
+          Already have an account? <a (click)="showLogin = true">Login here!</a>
+        </sub>
+      </ion-text>
+    </ion-item>
+
+    <br />
+  </ion-card>
+</ion-content>
