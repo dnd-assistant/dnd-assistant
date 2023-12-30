@@ -11,15 +11,17 @@ datasource db {
 }
 
 model User {
-  id              String    @id @default(uuid()) @db.Uuid
-  createdAt       DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt       DateTime  @updatedAt @db.Timestamptz(6)
-  email           String    @unique
-  passwordHash    String?
-  passwordSalt    String?
-  passwordVersion Int?
-  username        String?
-  sessions        Session[]
+  id                String             @id @default(uuid()) @db.Uuid
+  createdAt         DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime           @updatedAt @db.Timestamptz(6)
+  email             String             @unique
+  passwordHash      String?
+  passwordSalt      String?
+  passwordVersion   Int?
+  username          String?
+  sessions          Session[]
+  artifacts         Artifact[]
+  artifactTemplates ArtifactTemplate[]
 }
 
 model Session {
@@ -30,4 +32,76 @@ model Session {
   expiresAt DateTime @db.Timestamptz(6)
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @db.Timestamptz(6)
+}
+
+model ArtifactTemplate {
+  id             String          @id @default(uuid()) @db.Uuid
+  title          String
+  fieldTemplates FieldTemplate[]
+  artifacts      Artifact[]
+  user           User?           @relation(fields: [userId], references: [id])
+  userId         String?         @db.Uuid
+  visibility     Visibility
+  createdAt      DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime        @updatedAt @db.Timestamptz(6)
+}
+
+model FieldTemplate {
+  id                 String           @id @default(uuid()) @db.Uuid
+  order              Int
+  aiPrompt           String?
+  type               FieldType
+  description        String?
+  placeholder        String?
+  required           Boolean          @default(false)
+  artifactTemplate   ArtifactTemplate @relation(fields: [artifactTemplateId], references: [id])
+  artifactTemplateId String           @db.Uuid
+  fields             Field[]
+  createdAt          DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime         @updatedAt @db.Timestamptz(6)
+}
+
+model Artifact {
+  id                 String           @id @default(uuid()) @db.Uuid
+  fields             Field[]
+  artifactTemplate   ArtifactTemplate @relation(fields: [artifactTemplateId], references: [id])
+  artifactTemplateId String           @db.Uuid
+  user               User             @relation(fields: [userId], references: [id])
+  userId             String           @db.Uuid
+  createdAt          DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime         @updatedAt @db.Timestamptz(6)
+}
+
+model Field {
+  id              String        @id @default(uuid()) @db.Uuid
+  text            String?
+  images          Image[]
+  fieldTemplate   FieldTemplate @relation(fields: [fieldTemplateId], references: [id])
+  fieldTemplateId String        @db.Uuid
+  artifact        Artifact      @relation(fields: [artifactId], references: [id])
+  artifactId      String        @db.Uuid
+  createdAt       DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime      @updatedAt @db.Timestamptz(6)
+}
+
+model Image {
+  id        String   @id @default(uuid()) @db.Uuid
+  title     String
+  key       String
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  Fields    Field[]
+}
+
+enum FieldType {
+  Image
+  Images
+  Text
+  WebLink
+  WebLinks
+}
+
+enum Visibility {
+  Public
+  Private
 }
